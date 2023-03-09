@@ -50,7 +50,7 @@ local lpeg = {}
 ---@operator add(Capture): Pattern
 ---@operator mul(Capture): Pattern
 ---@operator mul(Pattern): Pattern
----@operator pow(Capture): Pattern
+---@operator pow(number): Pattern
 ---
 ---The matching function.
 ---It attempts to match the given pattern against the subject string.

@@ -42,7 +42,7 @@ local lpeg = {}
 ---@operator add(Pattern): Pattern
 ---@operator mul(Pattern): Pattern
 ---@operator mul(Capture): Pattern
----@operator pow(Pattern): Pattern
+---@operator pow(number): Pattern
 ---@field match fun(p: Pattern, s: string)
 
 ---

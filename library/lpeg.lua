@@ -42,6 +42,10 @@ local lpeg = {}
 ---@operator add(Pattern): Pattern
 ---@operator mul(Pattern): Pattern
 ---@operator mul(Capture): Pattern
+---@operator div(string): Capture
+---@operator div(number): Capture
+---@operator div(table): Capture
+---@operator div(function): Capture
 ---@operator pow(number): Pattern
 ---@field match fun(p: Pattern, s: string)
 
@@ -50,7 +54,11 @@ local lpeg = {}
 ---@operator add(Capture): Pattern
 ---@operator mul(Capture): Pattern
 ---@operator mul(Pattern): Pattern
----@operator pow(Capture): Pattern
+---@operator div(string): Capture
+---@operator div(number): Capture
+---@operator div(table): Capture
+---@operator div(function): Capture
+---@operator pow(number): Pattern
 ---
 ---The matching function.
 ---It attempts to match the given pattern against the subject string.

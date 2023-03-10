@@ -1,4 +1,5 @@
 ---@meta
+---The definitions are developed in this repository: https://github.com/LuaCATS/lpeg
 
 ---
 ---This type definition is based on the [HTML documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg library. A different HTML documentation can be found at http://stevedonovan.github.io/lua-stdlibs/modules/lpeg.html.

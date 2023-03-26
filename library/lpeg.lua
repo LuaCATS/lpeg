@@ -51,7 +51,7 @@ local lpeg = {}
 ---@field match fun(p: Pattern, s: string)
 
 ---
----@class Capture
+---@alias Capture Pattern
 ---@operator add(Capture): Pattern
 ---@operator mul(Capture): Pattern
 ---@operator mul(Pattern): Pattern

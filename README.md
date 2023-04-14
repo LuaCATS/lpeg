@@ -24,19 +24,19 @@ setting in the configuration file of
 Here are two screenshots showing the different behavior. If `hover.expandAlias` is `false`,
 the tooltip for a function like `lpeg.Cc()` displays the return type as `Capture`:
 
-![hover.expandAlias equals false](resources/images/alias-01.png)
+![hover.expandAlias equals false](https://raw.githubusercontent.com/Josef-Friedrich/LuaTeX_Lua-API/main/resources/images/LPeg_alias-01.png)
 
 If `hover.expandAlias` is `true`, the tooltip displays the return type as `Pattern`:
 
-![hover.expandAlias equals true](resources/images/alias-02.png)
+![hover.expandAlias equals true](https://raw.githubusercontent.com/Josef-Friedrich/LuaTeX_Lua-API/main/resources/images/LPeg_alias-02.png)
 
 ### Configuration
 
-[Lua-language-server](https://github.com/LuaLS/lua-language-server) provides several 
+[Lua-language-server](https://github.com/LuaLS/lua-language-server) provides several
 configuration file for defining settings like `hover.expandAlias`, and they are all
 explained in the documentation of lua-language-server.
 
-One way to configure it is the following: Create a JSON file 
+One way to configure it is the following: Create a JSON file
 [`.luarc.json`](https://github.com/LuaLS/lua-language-server/wiki/Configuration-File#luarcjson)
 in the top-level directory of your workspace with the following content. If this
 configuration file already exists, just add the `expandAlias` key.

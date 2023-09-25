@@ -54,6 +54,7 @@ local lpeg = {}
 ---@operator div(table): Capture
 ---@operator div(function): Capture
 ---@operator pow(number): Pattern
+---@operator mod(function): nil
 local Pattern = {}
 
 ---

@@ -44,7 +44,9 @@ local lpeg = {}
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 ---@class Pattern
+---@operator unm: Pattern
 ---@operator add(Pattern): Pattern
+---@operator sub(Pattern): Pattern
 ---@operator mul(Pattern): Pattern
 ---@operator mul(Capture): Pattern
 ---@operator div(string): Capture
@@ -52,6 +54,7 @@ local lpeg = {}
 ---@operator div(table): Capture
 ---@operator div(function): Capture
 ---@operator pow(number): Pattern
+---@operator mod(function): nil
 local Pattern = {}
 
 ---

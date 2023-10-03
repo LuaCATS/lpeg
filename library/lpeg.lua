@@ -238,7 +238,7 @@ function lpeg.P(value) end
 ---this pattern never consumes any input,
 ---independently of success or failure.
 ---
----@param pattern Pattern|string|integer|boolean
+---@param pattern Pattern|string|integer|boolean|table
 ---
 ---@return Pattern
 ---

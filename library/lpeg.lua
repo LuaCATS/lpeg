@@ -482,7 +482,7 @@ function lpeg.Cc(...) end
 ---at least one capture with at least one value (of any type),
 ---which becomes the initial value of an accumulator.
 ---(If you need a specific initial value,
----you may prefix a constant captureto `patt`.)
+---you may prefix a constant capture to `patt`.)
 ---For each subsequent capture,
 ---LPeg calls `func`
 ---with this accumulator as the first argument and all values produced
@@ -611,12 +611,12 @@ function lpeg.Ct(patt) end
 ---the current position (after the match of `patt`),
 ---plus any capture values produced by `patt`.
 ---
----The first value returned by `function`
+---The first value returned by `fn`
 ---defines how the match happens.
 ---If the call returns a number,
 ---the match succeeds
 ---and the returned number becomes the new current position.
----(Assuming a subject sand current position i,
+---(Assuming a subject and current position i,
 ---the returned number must be in the range [i, len(s) + 1].)
 ---If the call returns true,
 ---the match succeeds without consuming any input.

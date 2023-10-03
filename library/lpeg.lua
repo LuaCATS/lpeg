@@ -502,7 +502,7 @@ function lpeg.Cc(...) end
 ---```
 ---
 ---@param patt Pattern
----@param func fun(acc, newvalue)
+---@param func fun(acc, newvalue): (acc: any)
 ---
 ---@return Capture
 ---

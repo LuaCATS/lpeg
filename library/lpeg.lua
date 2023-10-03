@@ -238,7 +238,7 @@ function lpeg.P(value) end
 ---this pattern never consumes any input,
 ---independently of success or failure.
 ---
----@param pattern Pattern
+---@param pattern Pattern|string|integer|boolean
 ---
 ---@return Pattern
 ---
@@ -404,7 +404,7 @@ function lpeg.locale(tab) end
 ---assert(c == 'c')
 ---```
 ---
----@param patt Pattern
+---@param patt Pattern|string|integer|boolean|table|function
 ---
 ---@return Capture
 ---
@@ -501,7 +501,7 @@ function lpeg.Cc(...) end
 ---assert(sum:match("10,30,43") == 83)
 ---```
 ---
----@param patt Pattern
+---@param patt Pattern|string|number|boolean|table|function
 ---@param func fun(acc, newvalue)
 ---
 ---@return Capture
@@ -518,7 +518,7 @@ function lpeg.Cf(patt, func) end
 ---or named with the given name
 ---(which can be any non-nil Lua value).
 ---
----@param patt Pattern
+---@param patt Pattern|string|number|boolean|table|function
 ---@param name? string
 ---
 ---@return Capture
@@ -572,7 +572,7 @@ function lpeg.Cp() end
 ---assert(gsub('Hello, xxx!', 'xxx', 'World') == 'Hello, World!')
 ---```
 ---
----@param patt Pattern
+---@param patt Pattern|string|number|boolean|table|function
 ---
 ---@return Capture
 ---
@@ -591,7 +591,7 @@ function lpeg.Cs(patt) end
 ---with the group name as its key.
 ---The captured value is only the table.
 ---
----@param patt Pattern|''
+---@param patt Pattern|string|number|boolean|table|function
 ---
 ---@return Capture
 ---
@@ -620,15 +620,15 @@ function lpeg.Ct(patt) end
 ---the returned number must be in the range [i, len(s) + 1].)
 ---If the call returns true,
 ---the match succeeds without consuming any input.
----(So, to return trueis equivalent to return i.)
+---(So, to return true is equivalent to return i.)
 ---If the call returns false, nil, or no value,
 ---the match fails.
 ---
 ---Any extra values returned by the function become the
 ---values produced by the capture.
 ---
----@param patt Pattern
----@param fn function
+---@param patt Pattern|string|number|boolean|table|function
+---@param fn fun(s: string, i: integer, ...: any): (position?: boolean|number, ...: any)
 ---
 ---@return Capture
 ---

@@ -187,7 +187,7 @@ function lpeg.setmaxstack(max) end
 ---
 ---Convert the given value into a proper pattern.
 ---
----This following rules are applied:
+---The following rules are applied:
 ---
 ---* If the argument is a pattern,
 ---it is returned unmodified.
@@ -203,7 +203,7 @@ function lpeg.setmaxstack(max) end
 ---succeeds only if the input string has less than `n` characters left:
 ---`lpeg.P(-n)`
 ---is equivalent to `-lpeg.P(n)`
----(see the  unary minus operation).
+---(see the unary minus operation).
 ---
 ---* If the argument is a boolean,
 ---the result is a pattern that always succeeds or always fails
@@ -216,7 +216,7 @@ function lpeg.setmaxstack(max) end
 ---
 ---* If the argument is a function,
 ---returns a pattern equivalent to a
----match-time captureover the empty string.
+---match-time capture over the empty string.
 ---
 ---@param value Pattern|string|integer|boolean|table|function
 ---
@@ -234,7 +234,7 @@ function lpeg.P(value) end
 ---with some fixed length,
 ---and it cannot contain captures.
 ---
----Like the and predicate,
+---Like the `and` predicate,
 ---this pattern never consumes any input,
 ---independently of success or failure.
 ---
@@ -616,12 +616,12 @@ function lpeg.Ct(patt) end
 ---If the call returns a number,
 ---the match succeeds
 ---and the returned number becomes the new current position.
----(Assuming a subject and current position i,
----the returned number must be in the range [i, len(s) + 1].)
+---(Assuming a subject and current position `i`,
+---the returned number must be in the range `[i, len(s) + 1]`.)
 ---If the call returns true,
 ---the match succeeds without consuming any input.
----(So, to return true is equivalent to return i.)
----If the call returns false, nil, or no value,
+---(So, to return true is equivalent to return `i`.)
+---If the call returns `false`, `nil`, or no value,
 ---the match fails.
 ---
 ---Any extra values returned by the function become the

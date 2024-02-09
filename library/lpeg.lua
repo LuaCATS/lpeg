@@ -95,10 +95,10 @@ local Pattern = {}
 ---__Example:__
 ---
 ---```lua
----local pattern = lpeg.R("az") ^ 1 * -1
----assert(pattern:match("hello") == 6)
----assert(lpeg.match(pattern, "hello") == 6)
----assert(pattern:match("1 hello") == nil)
+---local pattern = lpeg.R('az') ^ 1 * -1
+---assert(pattern:match('hello') == 6)
+---assert(lpeg.match(pattern, 'hello') == 6)
+---assert(pattern:match('1 hello') == nil)
 ---```
 ---
 ---@param pattern Pattern
@@ -136,10 +136,10 @@ function lpeg.match(pattern, subject, init) end
 ---__Example:__
 ---
 ---```lua
----local pattern = lpeg.R("az") ^ 1 * -1
----assert(pattern:match("hello") == 6)
----assert(lpeg.match(pattern, "hello") == 6)
----assert(pattern:match("1 hello") == nil)
+---local pattern = lpeg.R('az') ^ 1 * -1
+---assert(pattern:match('hello') == 6)
+---assert(lpeg.match(pattern, 'hello') == 6)
+---assert(pattern:match('1 hello') == nil)
 ---```
 ---
 ---@param subject string
@@ -187,7 +187,7 @@ function lpeg.setmaxstack(max) end
 ---
 ---Convert the given value into a proper pattern.
 ---
----This following rules are applied:
+---The following rules are applied:
 ---
 ---* If the argument is a pattern,
 ---it is returned unmodified.
@@ -203,7 +203,7 @@ function lpeg.setmaxstack(max) end
 ---succeeds only if the input string has less than `n` characters left:
 ---`lpeg.P(-n)`
 ---is equivalent to `-lpeg.P(n)`
----(see the  unary minus operation).
+---(see the unary minus operation).
 ---
 ---* If the argument is a boolean,
 ---the result is a pattern that always succeeds or always fails
@@ -216,7 +216,7 @@ function lpeg.setmaxstack(max) end
 ---
 ---* If the argument is a function,
 ---returns a pattern equivalent to a
----match-time captureover the empty string.
+---match-time capture over the empty string.
 ---
 ---@param value Pattern|string|integer|boolean|table|function
 ---
@@ -234,7 +234,7 @@ function lpeg.P(value) end
 ---with some fixed length,
 ---and it cannot contain captures.
 ---
----Like the and predicate,
+---Like the `and` predicate,
 ---this pattern never consumes any input,
 ---independently of success or failure.
 ---
@@ -255,14 +255,14 @@ function lpeg.B(pattern) end
 ---(both inclusive).
 ---
 ---As an example, the pattern
----`lpeg.R("09")` matches any digit,
----and `lpeg.R("az", "AZ")` matches any ASCII letter.
+---`lpeg.R('09')` matches any digit,
+---and `lpeg.R('az', 'AZ')` matches any ASCII letter.
 ---
 ---__Example:__
 ---
 ---```lua
----local pattern = lpeg.R("az") ^ 1 * -1
----assert(pattern:match("hello") == 6)
+---local pattern = lpeg.R('az') ^ 1 * -1
+---assert(pattern:match('hello') == 6)
 ---```
 ---
 ---@param ... string
@@ -278,13 +278,13 @@ function lpeg.R(...) end
 ---(The `S` stands for Set.)
 ---
 ---As an example, the pattern
----`lpeg.S("+-*/")` matches any arithmetic operator.
+---`lpeg.S('+-*/')` matches any arithmetic operator.
 ---
 ---Note that, if `s` is a character
 ---(that is, a string of length 1),
 ---then `lpeg.P(s)` is equivalent to `lpeg.S(s)`
 ---which is equivalent to `lpeg.R(s..s)`.
----Note also that both `lpeg.S("")` and `lpeg.R()`
+---Note also that both `lpeg.S('')` and `lpeg.R()`
 ---are patterns that always fail.
 ---
 ---@param string string
@@ -305,7 +305,7 @@ function lpeg.S(string) end
 ---__Example:__
 ---
 ---```lua
----local b = lpeg.P({"(" * ((1 - lpeg.S "()") + lpeg.V(1)) ^ 0 * ")"})
+---local b = lpeg.P({'(' * ((1 - lpeg.S '()') + lpeg.V(1)) ^ 0 * ')'})
 ---assert(b:match('((string))') == 11)
 ---assert(b:match('(') == nil)
 ---```
@@ -358,12 +358,12 @@ function lpeg.V(v) end
 ---
 ---```lua
 ---lpeg.locale(lpeg)
----local space = lpeg.space^0
----local name = lpeg.C(lpeg.alpha^1) * space
----local sep = lpeg.S(",;") * space
----local pair = lpeg.Cg(name * "=" * space * name) * sep^-1
----local list = lpeg.Cf(lpeg.Ct("") * pair^0, rawset)
----local t = list:match("a=b, c = hi; next = pi")
+---local space = lpeg.space ^ 0
+---local name = lpeg.C(lpeg.alpha ^ 1) * space
+---local sep = lpeg.S(',;') * space
+---local pair = lpeg.Cg(name * '=' * space * name) * sep ^ -1
+---local list = lpeg.Cf(lpeg.Ct('') * pair ^ 0, rawset)
+---local t = list:match('a=b, c = hi; next = pi')
 ---assert(t.a == 'b')
 ---assert(t.c == 'hi')
 ---assert(t.next == 'pi')
@@ -393,8 +393,8 @@ function lpeg.locale(tab) end
 ---```lua
 ---local function split (s, sep)
 ---  sep = lpeg.P(sep)
----  local elem = lpeg.C((1 - sep)^0)
----  local p = elem * (sep * elem)^0
+---  local elem = lpeg.C((1 - sep) ^ 0)
+---  local p = elem * (sep * elem) ^ 0
 ---  return lpeg.match(p, s)
 ---end
 ---
@@ -494,11 +494,11 @@ function lpeg.Cc(...) end
 ---__Example:__
 ---
 ---```lua
----local number = lpeg.R("09") ^ 1 / tonumber
----local list = number * ("," * number) ^ 0
+---local number = lpeg.R('09') ^ 1 / tonumber
+---local list = number * (',' * number) ^ 0
 ---local function add(acc, newvalue) return acc + newvalue end
 ---local sum = lpeg.Cf(list, add)
----assert(sum:match("10,30,43") == 83)
+---assert(sum:match('10,30,43') == 83)
 ---```
 ---
 ---@param patt Pattern|string|number|boolean|table|function
@@ -539,7 +539,7 @@ function lpeg.Cg(patt, name) end
 ---local I = lpeg.Cp()
 ---local function anywhere(p) return lpeg.P({I * p * I + 1 * lpeg.V(1)}) end
 ---
----local match_start, match_end = anywhere("world"):match("hello world!")
+---local match_start, match_end = anywhere('world'):match('hello world!')
 ---assert(match_start == 7)
 ---assert(match_end == 12)
 ---```
@@ -566,7 +566,7 @@ function lpeg.Cp() end
 ---```lua
 ---local function gsub (s, patt, repl)
 ---  patt = lpeg.P(patt)
----  patt = lpeg.Cs((patt / repl + 1)^0)
+---  patt = lpeg.Cs((patt / repl + 1) ^ 0)
 ---  return lpeg.match(patt, s)
 ---end
 ---assert(gsub('Hello, xxx!', 'xxx', 'World') == 'Hello, World!')
@@ -616,12 +616,12 @@ function lpeg.Ct(patt) end
 ---If the call returns a number,
 ---the match succeeds
 ---and the returned number becomes the new current position.
----(Assuming a subject and current position i,
----the returned number must be in the range [i, len(s) + 1].)
+---(Assuming a subject and current position `i`,
+---the returned number must be in the range `[i, len(s) + 1]`.)
 ---If the call returns true,
 ---the match succeeds without consuming any input.
----(So, to return true is equivalent to return i.)
----If the call returns false, nil, or no value,
+---(So, to return true is equivalent to return `i`.)
+---If the call returns `false`, `nil`, or no value,
 ---the match fails.
 ---
 ---Any extra values returned by the function become the

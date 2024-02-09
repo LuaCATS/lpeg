@@ -358,11 +358,11 @@ function lpeg.V(v) end
 ---
 ---```lua
 ---lpeg.locale(lpeg)
----local space = lpeg.space^0
----local name = lpeg.C(lpeg.alpha^1) * space
+---local space = lpeg.space ^ 0
+---local name = lpeg.C(lpeg.alpha ^ 1) * space
 ---local sep = lpeg.S(',;') * space
----local pair = lpeg.Cg(name * '=' * space * name) * sep^-1
----local list = lpeg.Cf(lpeg.Ct('') * pair^0, rawset)
+---local pair = lpeg.Cg(name * '=' * space * name) * sep ^ -1
+---local list = lpeg.Cf(lpeg.Ct('') * pair ^ 0, rawset)
 ---local t = list:match('a=b, c = hi; next = pi')
 ---assert(t.a == 'b')
 ---assert(t.c == 'hi')
@@ -393,8 +393,8 @@ function lpeg.locale(tab) end
 ---```lua
 ---local function split (s, sep)
 ---  sep = lpeg.P(sep)
----  local elem = lpeg.C((1 - sep)^0)
----  local p = elem * (sep * elem)^0
+---  local elem = lpeg.C((1 - sep) ^ 0)
+---  local p = elem * (sep * elem) ^ 0
 ---  return lpeg.match(p, s)
 ---end
 ---
@@ -566,7 +566,7 @@ function lpeg.Cp() end
 ---```lua
 ---local function gsub (s, patt, repl)
 ---  patt = lpeg.P(patt)
----  patt = lpeg.Cs((patt / repl + 1)^0)
+---  patt = lpeg.Cs((patt / repl + 1) ^ 0)
 ---  return lpeg.match(patt, s)
 ---end
 ---assert(gsub('Hello, xxx!', 'xxx', 'World') == 'Hello, World!')

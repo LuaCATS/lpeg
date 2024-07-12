@@ -104,11 +104,12 @@ local Pattern = {}
 ---@param pattern Pattern
 ---@param subject string
 ---@param init? integer
+---@param ... any
 ---
 ---@return any ...
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
-function lpeg.match(pattern, subject, init) end
+function lpeg.match(pattern, subject, init, ...) end
 
 ---
 ---Match the given `pattern` against the `subject` string.
@@ -144,11 +145,12 @@ function lpeg.match(pattern, subject, init) end
 ---
 ---@param subject string
 ---@param init? integer
+---@param ... any
 ---
 ---@return any ...
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
-function Pattern:match(subject, init) end
+function Pattern:match(subject, init, ...) end
 
 ---
 ---Return the string `"pattern"` if the given value is a pattern, otherwise `nil`.

@@ -161,12 +161,14 @@ function Pattern:match(subject, init, ...) end
 function lpeg.type(value) end
 
 ---
----Return a string with the running version of LPeg.
+---A string (not a function) with the running version of LPeg.
 ---
----@return string
+---Note: In earlier versions of LPeg this field was a function.
+---
+---@type string
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
-function lpeg.version() end
+lpeg.version = ''
 
 ---
 ---Set a limit for the size of the backtrack stack used by LPeg to

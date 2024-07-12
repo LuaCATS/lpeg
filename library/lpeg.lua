@@ -50,10 +50,10 @@ local lpeg = {}
 ---@operator mul(Pattern): Pattern
 ---@operator mul(Capture): Pattern
 ---@operator div(string): Capture
----@operator div(number): Capture
+---@operator div(integer): Capture
 ---@operator div(table): Capture
 ---@operator div(function): Capture
----@operator pow(number): Pattern
+---@operator pow(integer): Pattern
 ---@operator mod(function): Capture
 local Pattern = {}
 
@@ -64,10 +64,10 @@ local Pattern = {}
 ---@operator mul(Capture): Pattern
 ---@operator mul(Pattern): Pattern
 ---@operator div(string): Capture
----@operator div(number): Capture
+---@operator div(integer): Capture
 ---@operator div(table): Capture
 ---@operator div(function): Capture
----@operator pow(number): Pattern
+---@operator pow(integer): Pattern
 
 ---
 ---Match the given `pattern` against the `subject` string.
@@ -501,7 +501,7 @@ function lpeg.Cc(...) end
 ---assert(sum:match('10,30,43') == 83)
 ---```
 ---
----@param patt Pattern|string|number|boolean|table|function
+---@param patt Pattern|string|integer|boolean|table|function
 ---@param func fun(acc, newvalue): (acc: any)
 ---
 ---@return Capture
@@ -518,7 +518,7 @@ function lpeg.Cf(patt, func) end
 ---or named with the given name
 ---(which can be any non-nil Lua value).
 ---
----@param patt Pattern|string|number|boolean|table|function
+---@param patt Pattern|string|integer|boolean|table|function
 ---@param name? string
 ---
 ---@return Capture
@@ -572,7 +572,7 @@ function lpeg.Cp() end
 ---assert(gsub('Hello, xxx!', 'xxx', 'World') == 'Hello, World!')
 ---```
 ---
----@param patt Pattern|string|number|boolean|table|function
+---@param patt Pattern|string|integer|boolean|table|function
 ---
 ---@return Capture
 ---
@@ -591,7 +591,7 @@ function lpeg.Cs(patt) end
 ---with the group name as its key.
 ---The captured value is only the table.
 ---
----@param patt Pattern|string|number|boolean|table|function
+---@param patt Pattern|string|integer|boolean|table|function
 ---
 ---@return Capture
 ---
@@ -627,8 +627,8 @@ function lpeg.Ct(patt) end
 ---Any extra values returned by the function become the
 ---values produced by the capture.
 ---
----@param patt Pattern|string|number|boolean|table|function
----@param fn fun(s: string, i: integer, ...: any): (position: boolean|number, ...: any)
+---@param patt Pattern|string|integer|boolean|table|function
+---@param fn fun(s: string, i: integer, ...: any): (position: boolean|integer, ...: any)
 ---
 ---@return Capture
 ---

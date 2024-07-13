@@ -101,7 +101,7 @@ local Pattern = {}
 ---assert(pattern:match('1 hello') == nil)
 ---```
 ---
----@param pattern Pattern
+---@param pattern Pattern|string|integer|boolean|table|function
 ---@param subject string
 ---@param init? integer
 ---@param ... any

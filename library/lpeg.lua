@@ -316,7 +316,7 @@ function lpeg.S(string) end
 ---assert(b:match('(') == nil)
 ---```
 ---
----@param v string|integer
+---@param v boolean|string|number|function|table|thread|userdata|lightuserdata
 ---
 ---@return Pattern
 ---

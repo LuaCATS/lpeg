@@ -170,7 +170,7 @@ function lpeg.type(value) end
 ---@type string
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
-lpeg.version = ''
+lpeg.version = ""
 
 ---
 ---Set a limit for the size of the backtrack stack used by LPeg to

@@ -29,40 +29,32 @@
 ---The definitions are developed in this repository: https://github.com/LuaCATS/lpeg
 
 ---
----This type definition is based on the [HTML documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg library. A different HTML documentation can be found at http://stevedonovan.github.io/lua-stdlibs/modules/lpeg.html.
+---This type definition is based on the
+---[HTML documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg
+---library. A different HTML documentation
+---can be found at
+---[stevedonovan.github.io/lua-stdlibs](http://stevedonovan.github.io/lua-stdlibs/modules/lpeg.html).
 ---
----*LPeg* is a new pattern-matching library for Lua,
----based on
----[Parsing Expression Grammars](https://bford.info/packrat/) (PEGs).
----This text is a reference manual for the library.
----For a more formal treatment of LPeg,
----as well as some discussion about its implementation,
----see
----[A Text Pattern-Matching Tool based on Parsing Expression Grammars](http://www.inf.puc-rio.br/~roberto/docs/peg.pdf).
----(You may also be interested in my
----[talk about LPeg](https://vimeo.com/1485123)
----given at the III Lua Workshop.)
+---*LPeg* is a new pattern-matching library for Lua, based on [Parsing
+---Expression Grammars](https://bford.info/packrat/) (PEGs). This text is a
+---reference manual for the library. For a more formal treatment of LPeg, as
+---well as some discussion about its implementation, see [A Text
+---Pattern-Matching Tool based on Parsing Expression
+---Grammars](http://www.inf.puc-rio.br/~roberto/docs/peg.pdf). (You may also be
+---interested in my [talk about LPeg](https://vimeo.com/1485123) given at the
+---III Lua Workshop.)
 ---
----Following the Snobol tradition,
----LPeg defines patterns as first-class objects.
----That is, patterns are regular Lua values
----(represented by userdata).
----The library offers several functions to create
----and compose patterns.
----With the use of metamethods,
----several of these functions are provided as infix or prefix
----operators.
----On the one hand,
----the result is usually much more verbose than the typical
----encoding of patterns using the so called
----*regular expressions*
----(which typically are not regular expressions in the formal sense).
----On the other hand,
----first-class patterns allow much better documentation
----(as it is easy to comment the code,
----to break complex definitions in smaller parts, etc.)
----and are extensible,
----as we can define new functions to create and compose patterns.
+---Following the Snobol tradition, LPeg defines patterns as first-class objects.
+---That is, patterns are regular Lua values (represented by userdata). The
+---library offers several functions to create and compose patterns. With the use
+---of metamethods, several of these functions are provided as infix or prefix
+---operators. On the one hand, the result is usually much more verbose than the
+---typical encoding of patterns using the so called *regular expressions* (which
+---typically are not regular expressions in the formal sense). On the other
+---hand, first-class patterns allow much better documentation (as it is easy to
+---comment the code, to break complex definitions in smaller parts, etc.) and
+---are extensible, as we can define new functions to create and compose
+---patterns.
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 local lpeg = {}
@@ -100,25 +92,20 @@ local Pattern = {}
 ---
 ---Match the given `pattern` against the `subject` string.
 ---
----If the match succeeds,
----returns the index in the subject of the first character after the match,
----or the captured values
----(if the pattern captured any value).
+---If the match succeeds, returns the index in the subject of the first
+---character after the match, or the captured values (if the pattern captured
+---any value).
 ---
----An optional numeric argument `init` makes the match
----start at that position in the subject string.
----As usual in Lua libraries,
----a negative value counts from the end.
+---An optional numeric argument `init` makes the match start at that position in
+---the subject string. As usual in Lua libraries, a negative value counts from
+---the end.
 ---
----Unlike typical pattern-matching functions,
----`match` works only in anchored mode;
----that is, it tries to match the pattern with a prefix of
----the given subject string (at position `init`),
----not with an arbitrary substring of the subject.
----So, if we want to find a pattern anywhere in a string,
----we must either write a loop in Lua or write a pattern that
----matches anywhere.
----This second approach is easy and quite efficient;
+---Unlike typical pattern-matching functions, `match` works only in anchored
+---mode; that is, it tries to match the pattern with a prefix of the given
+---subject string (at position `init`), not with an arbitrary substring of the
+---subject. So, if we want to find a pattern anywhere in a string, we must
+---either write a loop in Lua or write a pattern that matches anywhere. This
+---second approach is easy and quite efficient;
 ---
 ---__Example:__
 ---
@@ -142,25 +129,20 @@ function lpeg.match(pattern, subject, init, ...) end
 ---
 ---Match the given `pattern` against the `subject` string.
 ---
----If the match succeeds,
----returns the index in the subject of the first character after the match,
----or the captured values
----(if the pattern captured any value).
+---If the match succeeds, returns the index in the subject of the first
+---character after the match, or the captured values (if the pattern captured
+---any value).
 ---
----An optional numeric argument `init` makes the match
----start at that position in the subject string.
----As usual in Lua libraries,
----a negative value counts from the end.
+---An optional numeric argument `init` makes the match start at that position in
+---the subject string. As usual in Lua libraries, a negative value counts from
+---the end.
 ---
----Unlike typical pattern-matching functions,
----`match` works only in anchored mode;
----that is, it tries to match the pattern with a prefix of
----the given subject string (at position `init`),
----not with an arbitrary substring of the subject.
----So, if we want to find a pattern anywhere in a string,
----we must either write a loop in Lua or write a pattern that
----matches anywhere.
----This second approach is easy and quite efficient;
+---Unlike typical pattern-matching functions, `match` works only in anchored
+---mode; that is, it tries to match the pattern with a prefix of the given
+---subject string (at position `init`), not with an arbitrary substring of the
+---subject. So, if we want to find a pattern anywhere in a string, we must
+---either write a loop in Lua or write a pattern that matches anywhere. This
+---second approach is easy and quite efficient;
 ---
 ---__Example:__
 ---
@@ -199,17 +181,14 @@ function lpeg.type(value) end
 lpeg.version = ""
 
 ---
----Set a limit for the size of the backtrack stack used by LPeg to
----track calls and choices.
+---Set a limit for the size of the backtrack stack used by LPeg to track calls
+---and choices.
 ---
----The default limit is `400`.
----Most well-written patterns need little backtrack levels and
----therefore you seldom need to change this limit;
----before changing it you should try to rewrite your
----pattern to avoid the need for extra space.
----Nevertheless, a few useful patterns may overflow.
----Also, with recursive grammars,
----subjects with deep recursion may also need larger limits.
+---The default limit is `400`. Most well-written patterns need little backtrack
+---levels and therefore you seldom need to change this limit; before changing it
+---you should try to rewrite your pattern to avoid the need for extra space.
+---Nevertheless, a few useful patterns may overflow. Also, with recursive
+---grammars, subjects with deep recursion may also need larger limits.
 ---
 ---@param max integer
 ---
@@ -221,34 +200,20 @@ function lpeg.setmaxstack(max) end
 ---
 ---The following rules are applied:
 ---
----* If the argument is a pattern,
----it is returned unmodified.
----
----* If the argument is a string,
----it is translated to a pattern that matches the string literally.
----
----* If the argument is a non-negative number `n`,
----the result is a pattern that matches exactly `n` characters.
----
----* If the argument is a negative number `-n`,
----the result is a pattern that
----succeeds only if the input string has less than `n` characters left:
----`lpeg.P(-n)`
----is equivalent to `-lpeg.P(n)`
----(see the unary minus operation).
----
----* If the argument is a boolean,
----the result is a pattern that always succeeds or always fails
----(according to the boolean value),
----without consuming any input.
----
----* If the argument is a table,
----it is interpreted as a grammar
----(see Grammars).
----
----* If the argument is a function,
----returns a pattern equivalent to a
----match-time capture over the empty string.
+---* If the argument is a pattern, it is returned unmodified.
+---* If the argument is a string, it is translated to a pattern that matches the
+---  string literally.
+---* If the argument is a non-negative number `n`, the result is a pattern that
+---  matches exactly `n` characters.
+---* If the argument is a negative number `-n`, the result is a pattern that
+---  succeeds only if the input string has less than `n` characters left:
+---  `lpeg.P(-n)` is equivalent to `-lpeg.P(n)` (see the unary minus operation).
+---* If the argument is a boolean, the result is a pattern that always succeeds
+---  or always fails (according to the boolean value), without consuming any
+---  input.
+---* If the argument is a table, it is interpreted as a grammar (see Grammars).
+---* If the argument is a function, returns a pattern equivalent to a match-time
+---  capture over the empty string.
 ---
 ---@param value lpeg.Pattern|string|integer|boolean|table|function
 ---
@@ -258,16 +223,13 @@ function lpeg.setmaxstack(max) end
 function lpeg.P(value) end
 
 ---
----Return a pattern that
----matches only if the input string at the current position
----is preceded by `patt`.
+---Return a pattern that matches only if the input string at the current
+---position is preceded by `patt`.
 ---
----Pattern `patt` must match only strings
----with some fixed length,
----and it cannot contain captures.
+---Pattern `patt` must match only strings with some fixed length, and it cannot
+---contain captures.
 ---
----Like the `and` predicate,
----this pattern never consumes any input,
+---Like the `and` predicate, this pattern never consumes any input,
 ---independently of success or failure.
 ---
 ---@param pattern lpeg.Pattern|string|integer|boolean|table
@@ -278,17 +240,14 @@ function lpeg.P(value) end
 function lpeg.B(pattern) end
 
 ---
----Return a pattern that matches any single character
----belonging to one of the given ranges.
+---Return a pattern that matches any single character belonging to one of the
+---given ranges.
 ---
----Each `range` is a string `xy` of length 2,
----representing all characters with code
----between the codes of `x` and `y`
----(both inclusive).
+---Each `range` is a string `xy` of length 2, representing all characters with
+---code between the codes of `x` and `y` (both inclusive).
 ---
----As an example, the pattern
----`lpeg.R('09')` matches any digit,
----and `lpeg.R('az', 'AZ')` matches any ASCII letter.
+---As an example, the pattern `lpeg.R('09')` matches any digit, and
+---`lpeg.R('az', 'AZ')` matches any ASCII letter.
 ---
 ---__Example:__
 ---
@@ -305,19 +264,15 @@ function lpeg.B(pattern) end
 function lpeg.R(...) end
 
 ---
----Return a pattern that matches any single character that
----appears in the given string.
----(The `S` stands for Set.)
+---Return a pattern that matches any single character that appears in the given
+---string. (The `S` stands for Set.)
 ---
----As an example, the pattern
----`lpeg.S('+-*/')` matches any arithmetic operator.
+---As an example, the pattern `lpeg.S('+-*/')` matches any arithmetic operator.
 ---
----Note that, if `s` is a character
----(that is, a string of length 1),
----then `lpeg.P(s)` is equivalent to `lpeg.S(s)`
----which is equivalent to `lpeg.R(s..s)`.
----Note also that both `lpeg.S('')` and `lpeg.R()`
----are patterns that always fail.
+---Note that, if `s` is a character (that is, a string of length 1), then
+---`lpeg.P(s)` is equivalent to `lpeg.S(s)` which is equivalent to
+---`lpeg.R(s..s)`. Note also that both `lpeg.S('')` and `lpeg.R()` are patterns
+---that always fail.
 ---
 ---@param string string
 ---
@@ -329,10 +284,8 @@ function lpeg.S(string) end
 ---
 ---Create a non-terminal (a variable) for a grammar.
 ---
----This operation creates a non-terminal (a variable)
----for a grammar.
----The created non-terminal refers to the rule indexed by `v`
----in the enclosing grammar.
+---This operation creates a non-terminal (a variable) for a grammar. The created
+---non-terminal refers to the rule indexed by `v` in the enclosing grammar.
 ---
 ---__Example:__
 ---
@@ -364,27 +317,16 @@ function lpeg.V(v) end
 ---@field xdigit userdata
 
 ---
----Return a table with patterns for matching some character classes
----according to the current locale.
+---Return a table with patterns for matching some character classes according to
+---the current locale.
 ---
----The table has fields named
----`alnum`,
----`alpha`,
----`cntrl`,
----`digit`,
----`graph`,
----`lower`,
----`print`,
----`punct`,
----`space`,
----`upper`, and
----`xdigit`,
----each one containing a correspondent pattern.
----Each pattern matches any single character that belongs to its class.
---
----If called with an argument `table`,
----then it creates those fields inside the given table and
----returns that table.
+---The table has fields named `alnum`, `alpha`, `cntrl`, `digit`, `graph`,
+---`lower`, `print`, `punct`, `space`, `upper`, and `xdigit`, each one
+---containing a correspondent pattern. Each pattern matches any single character
+---that belongs to its class.
+---
+---If called with an argument `table`, then it creates those fields inside the
+---given table and returns that table.
 ---
 ---__Example:__
 ---
@@ -414,10 +356,8 @@ function lpeg.locale(tab) end
 ---
 ---Create a simple capture.
 ---
----Creates a simple capture,
----which captures the substring of the subject that matches `patt`.
----The captured value is a string.
----If `patt` has other captures,
+---Creates a simple capture, which captures the substring of the subject that
+---matches `patt`. The captured value is a string. If `patt` has other captures,
 ---their values are returned after this one.
 ---
 ---__Example:__
@@ -446,9 +386,8 @@ function lpeg.C(patt) end
 ---
 ---Create an argument capture.
 ---
----This pattern matches the empty string and
----produces the value given as the nth extra
----argument given in the call to `lpeg.match`.
+---This pattern matches the empty string and produces the value given as the nth
+---extra argument given in the call to `lpeg.match`.
 ---
 ---@param n integer
 ---
@@ -460,24 +399,17 @@ function lpeg.Carg(n) end
 ---
 ---Create a back capture.
 ---
----This pattern matches the empty string and
----produces the values produced by the most recent
----group capture named `name`
----(where `name` can be any Lua value).
+---This pattern matches the empty string and produces the values produced by the
+---most recent group capture named `name` (where `name` can be any Lua value).
 ---
----Most recent means the last
----complete
----outermost
----group capture with the given name.
----A Complete capture means that the entire pattern
----corresponding to the capture has matched.
----An Outermost capture means that the capture is not inside
----another complete capture.
+---Most recent means the last complete outermost group capture with the given
+---name. A Complete capture means that the entire pattern corresponding to the
+---capture has matched. An Outermost capture means that the capture is not
+---inside another complete capture.
 ---
----In the same way that LPeg does not specify when it evaluates captures,
----it does not specify whether it reuses
----values previously produced by the group
----or re-evaluates them.
+---In the same way that LPeg does not specify when it evaluates captures, it
+---does not specify whether it reuses values previously produced by the group or
+---re-evaluates them.
 ---
 ---@param name any
 ---
@@ -489,8 +421,8 @@ function lpeg.Cb(name) end
 ---
 ---Create a constant capture.
 ---
----This pattern matches the empty string and
----produces all given values as its captured values.
+---This pattern matches the empty string and produces all given values as its
+---captured values.
 ---
 ---@param ... any
 ---
@@ -502,26 +434,18 @@ function lpeg.Cc(...) end
 ---
 ---Create a fold capture.
 ---
----If `patt` produces a list of captures
----C1 C2 ... Cn,
----this capture will produce the value
----`func(...func(func(C1, C2), C3)...,Cn)`,
----that is, it will fold
----(or accumulate, or reduce)
----the captures from `patt` using function `func`.
+---If `patt` produces a list of captures C1 C2 ... Cn, this capture will produce
+---the value `func(...func(func(C1, C2), C3)...,Cn)`, that is, it will fold (or
+---accumulate, or reduce) the captures from `patt` using function `func`.
 ---
----This capture assumes that `patt` should produce
----at least one capture with at least one value (of any type),
----which becomes the initial value of an accumulator.
----(If you need a specific initial value,
----you may prefix a constant capture to `patt`.)
----For each subsequent capture,
----LPeg calls `func`
----with this accumulator as the first argument and all values produced
----by the capture as extra arguments;
----the first result from this call
----becomes the new value for the accumulator.
----The final value of the accumulator becomes the captured value.
+---This capture assumes that `patt` should produce at least one capture with at
+---least one value (of any type), which becomes the initial value of an
+---accumulator. (If you need a specific initial value, you may prefix a constant
+---capture to `patt`.) For each subsequent capture, LPeg calls `func` with this
+---accumulator as the first argument and all values produced by the capture as
+---extra arguments; the first result from this call becomes the new value for
+---the accumulator. The final value of the accumulator becomes the captured
+---value.
 ---
 ---__Example:__
 ---
@@ -544,11 +468,9 @@ function lpeg.Cf(patt, func) end
 ---
 ---Create a group capture.
 ---
----It groups all values returned by `patt`
----into a single capture.
----The group may be anonymous (if no name is given)
----or named with the given name
----(which can be any non-nil Lua value).
+---It groups all values returned by `patt` into a single capture. The group may
+---be anonymous (if no name is given) or named with the given name (which can be
+---any non-nil Lua value).
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---@param name? string
@@ -561,9 +483,8 @@ function lpeg.Cg(patt, name) end
 ---
 ---Create a position capture.
 ---
----It matches the empty string and
----captures the position in the subject where the match occurs.
----The captured value is a number.
+---It matches the empty string and captures the position in the subject where
+---the match occurs. The captured value is a number.
 ---
 ---__Example:__
 ---
@@ -584,14 +505,11 @@ function lpeg.Cp() end
 ---
 ---Create a substitution capture.
 ---
----This function creates a substitution capture,
----which captures the substring of the subject that matches `patt`,
----with substitutions.
----For any capture inside `patt` with a value,
----the substring that matched the capture is replaced by the capture value
----(which should be a string).
----The final captured value is the string resulting from
----all replacements.
+---This function creates a substitution capture, which captures the substring of
+---the subject that matches `patt`, with substitutions. For any capture inside
+---`patt` with a value, the substring that matched the capture is replaced by
+---the capture value (which should be a string). The final captured value is the
+---string resulting from all replacements.
 ---
 ---__Example:__
 ---
@@ -614,14 +532,11 @@ function lpeg.Cs(patt) end
 ---
 ---Create a table capture.
 ---
----This capture returns a table with all values from all anonymous captures
----made by `patt` inside this table in successive integer keys,
----starting at 1.
----Moreover,
----for each named capture group created by `patt`,
----the first value of the group is put into the table
----with the group name as its key.
----The captured value is only the table.
+---This capture returns a table with all values from all anonymous captures made
+---by `patt` inside this table in successive integer keys, starting at 1.
+---Moreover, for each named capture group created by `patt`, the first value of
+---the group is put into the table with the group name as its key. The captured
+---value is only the table.
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---
@@ -633,31 +548,24 @@ function lpeg.Ct(patt) end
 ---
 ---Create a match-time capture.
 ---
----Unlike all other captures,
----this one is evaluated immediately when a match occurs
----(even if it is part of a larger pattern that fails later).
----It forces the immediate evaluation of all its nested captures
----and then calls `function`.
+---Unlike all other captures, this one is evaluated immediately when a match
+---occurs (even if it is part of a larger pattern that fails later). It forces
+---the immediate evaluation of all its nested captures and then calls
+---`function`.
 ---
----The given function gets as arguments the entire subject,
----the current position (after the match of `patt`),
----plus any capture values produced by `patt`.
+---The given function gets as arguments the entire subject, the current position
+---(after the match of `patt`), plus any capture values produced by `patt`.
 ---
----The first value returned by `fn`
----defines how the match happens.
----If the call returns a number,
----the match succeeds
----and the returned number becomes the new current position.
----(Assuming a subject and current position `i`,
----the returned number must be in the range `[i, len(s) + 1]`.)
----If the call returns true,
----the match succeeds without consuming any input.
----(So, to return true is equivalent to return `i`.)
----If the call returns `false`, `nil`, or no value,
----the match fails.
+---The first value returned by `fn` defines how the match happens. If the call
+---returns a number, the match succeeds and the returned number becomes the new
+---current position. (Assuming a subject and current position `i`, the returned
+---number must be in the range `[i, len(s) + 1]`.) If the call returns true, the
+---match succeeds without consuming any input. (So, to return true is equivalent
+---to return `i`.) If the call returns `false`, `nil`, or no value, the match
+---fails.
 ---
----Any extra values returned by the function become the
----values produced by the capture.
+---Any extra values returned by the function become the values produced by the
+---capture.
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---@param fn fun(s: string, i: integer, ...: any): (position: boolean|integer, ...: any)

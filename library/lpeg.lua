@@ -303,7 +303,7 @@ function lpeg.S(string) end
 function lpeg.V(v) end
 
 ---
----@class Locale
+---@class lpeg.Locale
 ---@field alnum userdata
 ---@field alpha userdata
 ---@field cntrl userdata
@@ -348,7 +348,7 @@ function lpeg.V(v) end
 ---
 ---@param tab? table
 ---
----@return Locale
+---@return lpeg.Locale
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 function lpeg.locale(tab) end

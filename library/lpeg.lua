@@ -38,6 +38,16 @@
 ---interested in my [talk about LPeg](https://vimeo.com/1485123) given at the
 ---III Lua Workshop.)
 ---
+---This type definition is based on the
+---[HTML documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg
+---library. A different HTML documentation
+---can be found at
+---[stevedonovan.github.io/lua-stdlibs](http://stevedonovan.github.io/lua-stdlibs/modules/lpeg.html).
+---
+---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
+local lpeg = {}
+
+---
 ---Following the Snobol tradition, LPeg defines patterns as first-class objects.
 ---That is, patterns are regular Lua values (represented by userdata). The
 ---library offers several functions to create and compose patterns. With the use
@@ -50,15 +60,24 @@
 ---are extensible, as we can define new functions to create and compose
 ---patterns.
 ---
----This type definition is based on the
----[HTML documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg
----library. A different HTML documentation
----can be found at
----[stevedonovan.github.io/lua-stdlibs](http://stevedonovan.github.io/lua-stdlibs/modules/lpeg.html).
+---For a quick glance of the library, the following table summarizes its basic
+---operations for creating patterns:
 ---
----😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
-local lpeg = {}
-
+---| Operator              | Description                                                    |
+---| --------------------- | -------------------------------------------------------------- |
+---| `lpeg.P(string)`      | Matches `string` literally                                     |
+---| `lpeg.P(n)`           | Matches exactly `n` characters                                 |
+---| `lpeg.S(string)`      | Matches any character in `string` (Set)                        |
+---| `lpeg.R("xy")`        | Matches any character between `x` and `y` (Range)              |
+---| `lpeg.utfR(cp1, cp2)` | Matches an UTF-8 code point between `cp1` and `cp2`            |
+---| `patt^n`              | Matches at least `n` repetitions of `patt`                     |
+---| `patt^-n`             | Matches at most `n` repetitions of `patt`                      |
+---| `patt1 * patt2`       | Matches `patt1` followed by `patt2`                            |
+---| `patt1 + patt2`       | Matches `patt1` or `patt2` (ordered choice)                    |
+---| `patt1 - patt2`       | Matches `patt1` if `patt2` does not match                      |
+---| `-patt`               | Equivalent to (`"" - patt`)                                    |
+---| `#patt`               | Matches `patt` but consumes no input                           |
+---| `lpeg.B(patt)`        | Matches `patt` behind the current position, consuming no input |
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 ---@class lpeg.Pattern

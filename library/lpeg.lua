@@ -119,6 +119,7 @@ local Pattern = {}
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L1247-L1266](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1247-L1266)
+---* HTML documentation: [#f-match](https://www.inf.puc-rio.br/~roberto/lpeg#f-match)
 ---
 ---@param pattern lpeg.Pattern|string|integer|boolean|table|function
 ---@param subject string # A string to be matched with the pattern.
@@ -160,6 +161,7 @@ function lpeg.match(pattern, subject, init, ...) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L1247-L1266](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1247-L1266)
+---* HTML documentation: [#f-match](https://www.inf.puc-rio.br/~roberto/lpeg#f-match)
 ---
 ---@param subject string # A string to be matched with the pattern.
 ---@param init? integer # Make the match start at that position in the subject string. As usual in Lua libraries, a negative value counts from the end.
@@ -178,6 +180,7 @@ function Pattern:match(subject, init, ...) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L1288-L1294](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1288-L1294)
+---* HTML documentation: [#f-type](https://www.inf.puc-rio.br/~roberto/lpeg#f-type)
 ---
 ---@return 'pattern'|nil
 ---
@@ -192,6 +195,7 @@ function lpeg.type(value) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L1395](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1395)
+---* HTML documentation: [#f-version](https://www.inf.puc-rio.br/~roberto/lpeg#f-version)
 ---
 ---@type string
 ---
@@ -213,6 +217,7 @@ lpeg.version = ""
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L1279-L1285](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1279-L1285)
+---* HTML documentation: [#f-setstack](https://www.inf.puc-rio.br/~roberto/lpeg#f-setstack)
 ---
 ---@param max integer
 ---
@@ -242,6 +247,7 @@ function lpeg.setmaxstack(max) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L543-L548](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L543-L548)
+---* HTML documentation: [#op-p](https://www.inf.puc-rio.br/~roberto/lpeg#op-p)
 ---
 ---@param value lpeg.Pattern|string|integer|boolean|table|function
 ---
@@ -264,6 +270,7 @@ function lpeg.P(value) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L760-L770](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L760-L770)
+---* HTML documentation: [#op-behind](https://www.inf.puc-rio.br/~roberto/lpeg#op-behind)
 ---
 ---@param pattern lpeg.Pattern|string|integer|boolean|table
 ---
@@ -292,6 +299,7 @@ function lpeg.B(pattern) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L687-L702](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L687-L702)
+---* HTML documentation: [#op-r](https://www.inf.puc-rio.br/~roberto/lpeg#op-r)
 ---
 ---@param ... string
 ---
@@ -325,6 +333,7 @@ function lpeg.R(...) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L673-L684](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L673-L684)
+---* HTML documentation: [#op-s](https://www.inf.puc-rio.br/~roberto/lpeg#op-s)
 ---
 ---@param string string
 ---
@@ -351,6 +360,7 @@ function lpeg.S(string) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L773-L781](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L773-L781)
+---* HTML documentation: [#op-v](https://www.inf.puc-rio.br/~roberto/lpeg#op-v)
 ---
 ---@param v boolean|string|number|function|table|thread|userdata|lightuserdata
 ---
@@ -363,6 +373,7 @@ function lpeg.V(v) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1319-L1340)
+---* HTML documentation: [#op-locale](https://www.inf.puc-rio.br/~roberto/lpeg#op-locale)
 ---
 ---@class lpeg.Locale
 ---@field alnum userdata
@@ -410,6 +421,7 @@ function lpeg.V(v) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L1319-L1340](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1319-L1340)
+---* HTML documentation: [#op-locale](https://www.inf.puc-rio.br/~roberto/lpeg#op-locale)
 ---
 ---@param tab? table
 ---
@@ -441,6 +453,10 @@ function lpeg.locale(tab) end
 ---assert(c == 'c')
 ---```
 ---
+---__Reference:__
+---
+---* HTML documentation: [#cap-c](https://www.inf.puc-rio.br/~roberto/lpeg#cap-c)
+---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---
 ---@return lpeg.Capture
@@ -457,6 +473,7 @@ function lpeg.C(patt) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L901-L905](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L901-L905)
+---* HTML documentation: [#cap-arg](https://www.inf.puc-rio.br/~roberto/lpeg#cap-arg)
 ---
 ---@param n integer
 ---
@@ -483,6 +500,7 @@ function lpeg.Carg(n) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L901-L905](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L901-L905)
+---* HTML documentation: [#cap-b](https://www.inf.puc-rio.br/~roberto/lpeg#cap-b)
 ---
 ---@param name any
 ---
@@ -500,6 +518,7 @@ function lpeg.Cb(name) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L911-L936](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L911-L936)
+---* HTML documentation: [#cap-c](https://www.inf.puc-rio.br/~roberto/lpeg#cap-c)
 ---
 ---@param ... any
 ---
@@ -537,6 +556,7 @@ function lpeg.Cc(...) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L876-L879](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L876-L879)
+---* HTML documentation: [#cap-f](https://www.inf.puc-rio.br/~roberto/lpeg#cap-f)
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---@param func fun(acc, newvalue): (acc: any)
@@ -556,6 +576,7 @@ function lpeg.Cf(patt, func) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L868-L873](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L868-L873)
+---* HTML documentation: [#cap-g](https://www.inf.puc-rio.br/~roberto/lpeg#cap-g)
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---@param name? string
@@ -585,6 +606,7 @@ function lpeg.Cg(patt, name) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L887-L890](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L887-L890)
+---* HTML documentation: [#cap-p](https://www.inf.puc-rio.br/~roberto/lpeg#cap-p)
 ---
 ---@return lpeg.Capture
 ---
@@ -615,6 +637,7 @@ function lpeg.Cp() end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [L858-L860](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L858-L860)
+---* HTML documentation: [#cap-s](https://www.inf.puc-rio.br/~roberto/lpeg#cap-s)
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---
@@ -635,6 +658,7 @@ function lpeg.Cs(patt) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L863-L865](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L863-L865)
+---* HTML documentation: [#cap-t](https://www.inf.puc-rio.br/~roberto/lpeg#cap-t)
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---
@@ -669,6 +693,7 @@ function lpeg.Ct(patt) end
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L939-L945](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L939-L945)
+---* HTML documentation: [#matchtime](https://www.inf.puc-rio.br/~roberto/lpeg#matchtime)
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---@param fn fun(s: string, i: integer, ...: any): (position: boolean|integer, ...: any)

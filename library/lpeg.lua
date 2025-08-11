@@ -77,6 +77,56 @@ local lpeg = {}
 local Pattern = {}
 
 ---
+---A *capture* is a pattern that produces values (the so called *semantic
+---information*) according to what it matches. LPeg offers several kinds of
+---captures, which produces values based on matches and combine these values to
+---produce new values. Each capture may produce zero or more values.
+---
+---The following table summarizes the basic captures:
+---
+---| Operation                  | What it Produces                                                                                           |
+---| -------------------------- | ---------------------------------------------------------------------------------------------------------- |
+---| `lpeg.C(patt)`             | the match for `patt` plus all captures made by `patt`                                                      |
+---| `lpeg.Carg(n)`             | the value of the `nth` extra argument to `lpeg.match` (matches the empty string)                           |
+---| `lpeg.Cb(key)`             | the values produced by the previous group capture named `key` (matches the empty string)                   |
+---| `lpeg.Cc(values)`          | the given values (matches the empty string)                                                                |
+---| `lpeg.Cf(patt, func)`      | folding capture (deprecated)                                                                               |
+---| `lpeg.Cg(patt [, key])`    | the values produced by `patt`, optionally tagged with key                                                  |
+---| `lpeg.Cp()`                | the current position (matches the empty string)                                                            |
+---| `lpeg.Cs(patt)`            | the match for `patt` with the values from nested captures replacing their matches                          |
+---| `lpeg.Ct(patt)`            | a table with all captures from `patt`                                                                      |
+---| `patt / string`            | string, with some marks replaced by captures of `patt`                                                     |
+---| `patt / number`            | the n-th value captured by patt, or no value when number is zero.                                          |
+---| `patt / table`             | `table[c]`, where `c` is the (first) capture of `patt`                                                     |
+---| `patt / function`          | the returns of `function` applied to the captures of `patt`                                                |
+---| `patt % function`          | produces no value; it *accummulates* the captures from `patt` into the previous capture through `function` |
+---| `lpeg.Cmt(patt, function)` | the returns of `function` applied to the captures of `patt`; the application is done at match time         |
+---
+---A capture pattern produces its values only when it succeeds. For instance,
+---the pattern `lpeg.C(lpeg.P"a"^-1)` produces the empty string when there is
+---no `"a"` (because the pattern `"a"?` succeeds), while the pattern
+---`lpeg.C("a")^-1` does not produce any value when there is no `"a"` (because
+---the pattern `"a"` fails). A pattern inside a loop or inside a recursive
+---structure produces values for each match.
+---
+---Usually, LPeg does not specify when, if, or how many times it evaluates its
+---captures. Therefore, captures should avoid side effects. As an example,
+---LPeg may or may not call func in the pattern `lpeg.P"a" / func / 0`, given
+---that the ["division" by 0](https://www.inf.puc-rio.br/~roberto/lpeg#cap-num)
+---instructs LPeg to throw away the results from the pattern. Similarly, a
+---capture nested inside a
+---[named group](https://www.inf.puc-rio.br/~roberto/lpeg/#cap-g) may be
+---evaluated only when that group is referred in a
+---[back capture](https://www.inf.puc-rio.br/~roberto/lpeg/#cap-b); if there
+---are multiple back captures, the group may be evaluated multiple times.
+---
+---Moreover, captures cannot affect the way a pattern matches a subject.
+---The only exception to this rule is the so-called
+---[match-time capture](https://www.inf.puc-rio.br/~roberto/lpeg/#matchtime).
+---When a match-time capture matches, it forces the immediate evaluation of all
+---its nested captures and then calls its corresponding function, which defines
+---whether the match succeeds and also what values are produced.
+---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 ---@alias lpeg.Capture lpeg.Pattern
 ---@operator len: lpeg.Pattern

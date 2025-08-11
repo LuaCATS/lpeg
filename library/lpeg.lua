@@ -350,8 +350,11 @@ function lpeg.B(pattern) end
 
 ---
 ---Returns a pattern that matches a valid UTF-8 byte sequence representing a
----code point in the range `[cp1, cp2]`. The range is limited by the natural
----Unicode limit of `0x10FFFF`, but may include surrogates.
+---code point in the range `[cp1, cp2]`. (The `utfR` stands for
+---*`U`nicode `T`ransformation `F`ormat `R`ange*.)
+---
+---The range is limited by the natural Unicode limit of `0x10FFFF`, but may
+---include surrogates.
 ---
 ---__Reference:__
 ---

@@ -29,12 +29,6 @@
 ---The definitions are developed in this repository: https://github.com/LuaCATS/lpeg
 
 ---
----This type definition is based on the
----[HTML documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg
----library. A different HTML documentation
----can be found at
----[stevedonovan.github.io/lua-stdlibs](http://stevedonovan.github.io/lua-stdlibs/modules/lpeg.html).
----
 ---*LPeg* is a new pattern-matching library for Lua, based on [Parsing
 ---Expression Grammars](https://bford.info/packrat/) (PEGs). This text is a
 ---reference manual for the library. For a more formal treatment of LPeg, as
@@ -55,6 +49,12 @@
 ---comment the code, to break complex definitions in smaller parts, etc.) and
 ---are extensible, as we can define new functions to create and compose
 ---patterns.
+---
+---This type definition is based on the
+---[HTML documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg
+---library. A different HTML documentation
+---can be found at
+---[stevedonovan.github.io/lua-stdlibs](http://stevedonovan.github.io/lua-stdlibs/modules/lpeg.html).
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 local lpeg = {}
@@ -116,9 +116,13 @@ local Pattern = {}
 ---assert(pattern:match('1 hello') == nil)
 ---```
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L1247-L1266](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1247-L1266)
+---
 ---@param pattern lpeg.Pattern|string|integer|boolean|table|function
----@param subject string
----@param init? integer
+---@param subject string # A string to be matched with the pattern.
+---@param init? integer # Make the match start at that position in the subject string. As usual in Lua libraries, a negative value counts from the end.
 ---@param ... any
 ---
 ---@return any ...
@@ -153,17 +157,27 @@ function lpeg.match(pattern, subject, init, ...) end
 ---assert(pattern:match('1 hello') == nil)
 ---```
 ---
----@param subject string
----@param init? integer
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L1247-L1266](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1247-L1266)
+---
+---@param subject string # A string to be matched with the pattern.
+---@param init? integer # Make the match start at that position in the subject string. As usual in Lua libraries, a negative value counts from the end.
 ---@param ... any
 ---
----@return any ...
+---@return any ... # If the match succeeds, returns the index in the subject of the first
+---character after the match, or the captured values (if the pattern captured
+---any value).
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 function Pattern:match(subject, init, ...) end
 
 ---
 ---Return the string `"pattern"` if the given value is a pattern, otherwise `nil`.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L1288-L1294](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1288-L1294)
 ---
 ---@return 'pattern'|nil
 ---
@@ -175,10 +189,16 @@ function lpeg.type(value) end
 ---
 ---Note: In earlier versions of LPeg this field was a function.
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L1395](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1395)
+---
 ---@type string
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 lpeg.version = ""
+
+
 
 ---
 ---Set a limit for the size of the backtrack stack used by LPeg to track calls
@@ -189,6 +209,10 @@ lpeg.version = ""
 ---you should try to rewrite your pattern to avoid the need for extra space.
 ---Nevertheless, a few useful patterns may overflow. Also, with recursive
 ---grammars, subjects with deep recursion may also need larger limits.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L1279-L1285](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1279-L1285)
 ---
 ---@param max integer
 ---
@@ -215,6 +239,10 @@ function lpeg.setmaxstack(max) end
 ---* If the argument is a function, returns a pattern equivalent to a match-time
 ---  capture over the empty string.
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L543-L548](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L543-L548)
+---
 ---@param value lpeg.Pattern|string|integer|boolean|table|function
 ---
 ---@return lpeg.Pattern
@@ -224,13 +252,18 @@ function lpeg.P(value) end
 
 ---
 ---Return a pattern that matches only if the input string at the current
----position is preceded by `patt`.
+---position is preceded by `patt`. (The `B` stands for *Behind* (Look-behind
+---predicate).)
 ---
 ---Pattern `patt` must match only strings with some fixed length, and it cannot
 ---contain captures.
 ---
 ---Like the `and` predicate, this pattern never consumes any input,
 ---independently of success or failure.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L760-L770](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L760-L770)
 ---
 ---@param pattern lpeg.Pattern|string|integer|boolean|table
 ---
@@ -241,7 +274,7 @@ function lpeg.B(pattern) end
 
 ---
 ---Return a pattern that matches any single character belonging to one of the
----given ranges.
+---given ranges. (The `R` stands for *`R`ange*.)
 ---
 ---Each `range` is a string `xy` of length 2, representing all characters with
 ---code between the codes of `x` and `y` (both inclusive).
@@ -256,6 +289,10 @@ function lpeg.B(pattern) end
 ---assert(pattern:match('hello') == 6)
 ---```
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L687-L702](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L687-L702)
+---
 ---@param ... string
 ---
 ---@return lpeg.Pattern
@@ -265,7 +302,7 @@ function lpeg.R(...) end
 
 ---
 ---Return a pattern that matches any single character that appears in the given
----string. (The `S` stands for Set.)
+---string. (The `S` stands for *`S`et*.)
 ---
 ---As an example, the pattern `lpeg.S('+-*/')` matches any arithmetic operator.
 ---
@@ -273,6 +310,21 @@ function lpeg.R(...) end
 ---`lpeg.P(s)` is equivalent to `lpeg.S(s)` which is equivalent to
 ---`lpeg.R(s..s)`. Note also that both `lpeg.S('')` and `lpeg.R()` are patterns
 ---that always fail.
+---
+---__Example:__
+---
+---```lua
+---local pattern = lpeg.S('+-*/')
+---assert.equals(pattern:match("+"), 2)
+---assert.equals(pattern:match("-"), 2)
+---assert.equals(pattern:match("*"), 2)
+---assert.equals(pattern:match("/"), 2)
+---assert.is_nil(pattern:match("x"))
+---```
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L673-L684](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L673-L684)
 ---
 ---@param string string
 ---
@@ -282,7 +334,8 @@ function lpeg.R(...) end
 function lpeg.S(string) end
 
 ---
----Create a non-terminal (a variable) for a grammar.
+---Create a non-terminal (a variable) for a grammar. (The `V` stands for
+---*`V`ariable*.)
 ---
 ---This operation creates a non-terminal (a variable) for a grammar. The created
 ---non-terminal refers to the rule indexed by `v` in the enclosing grammar.
@@ -295,6 +348,10 @@ function lpeg.S(string) end
 ---assert(b:match('(') == nil)
 ---```
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L773-L781](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L773-L781)
+---
 ---@param v boolean|string|number|function|table|thread|userdata|lightuserdata
 ---
 ---@return lpeg.Pattern
@@ -302,6 +359,10 @@ function lpeg.S(string) end
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 function lpeg.V(v) end
 
+---
+---__Reference:__
+---
+---* Corresponding C source code: [](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1319-L1340)
 ---
 ---@class lpeg.Locale
 ---@field alnum userdata
@@ -346,6 +407,10 @@ function lpeg.V(v) end
 ---assert(type(locale.digit) == 'userdata')
 ---```
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L1319-L1340](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1319-L1340)
+---
 ---@param tab? table
 ---
 ---@return lpeg.Locale
@@ -354,7 +419,7 @@ function lpeg.V(v) end
 function lpeg.locale(tab) end
 
 ---
----Create a simple capture.
+---Create a simple capture. (The `C` stands for *`C`apture*.)
 ---
 ---Creates a simple capture, which captures the substring of the subject that
 ---matches `patt`. The captured value is a string. If `patt` has other captures,
@@ -384,10 +449,14 @@ function lpeg.locale(tab) end
 function lpeg.C(patt) end
 
 ---
----Create an argument capture.
+---Create an argument capture. (The `Carg` stands for *`C`apture `arg`ument*.)
 ---
 ---This pattern matches the empty string and produces the value given as the nth
 ---extra argument given in the call to `lpeg.match`.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L901-L905](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L901-L905)
 ---
 ---@param n integer
 ---
@@ -397,19 +466,23 @@ function lpeg.C(patt) end
 function lpeg.Carg(n) end
 
 ---
----Create a back capture.
+---Create a back capture. (The `Cb` stands for *`C`apture `b`ack*.)
 ---
 ---This pattern matches the empty string and produces the values produced by the
 ---most recent group capture named `name` (where `name` can be any Lua value).
 ---
 ---Most recent means the last complete outermost group capture with the given
----name. A Complete capture means that the entire pattern corresponding to the
----capture has matched. An Outermost capture means that the capture is not
+---name. A *complete* capture means that the entire pattern corresponding to the
+---capture has matched. An *outermost* capture means that the capture is not
 ---inside another complete capture.
 ---
 ---In the same way that LPeg does not specify when it evaluates captures, it
 ---does not specify whether it reuses values previously produced by the group or
 ---re-evaluates them.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L901-L905](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L901-L905)
 ---
 ---@param name any
 ---
@@ -419,10 +492,14 @@ function lpeg.Carg(n) end
 function lpeg.Cb(name) end
 
 ---
----Create a constant capture.
+---Create a constant capture. (The `Cc` stands for *`C`apture `c`onstant*.)
 ---
 ---This pattern matches the empty string and produces all given values as its
 ---captured values.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L911-L936](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L911-L936)
 ---
 ---@param ... any
 ---
@@ -432,9 +509,9 @@ function lpeg.Cb(name) end
 function lpeg.Cc(...) end
 
 ---
----Create a fold capture.
+---Create a fold capture. (The `Cf` stands for *`C`apture `f`fold*.)
 ---
----If `patt` produces a list of captures C1 C2 ... Cn, this capture will produce
+---If `patt` produces a list of captures `C1 C2 ... Cn`, this capture will produce
 ---the value `func(...func(func(C1, C2), C3)...,Cn)`, that is, it will fold (or
 ---accumulate, or reduce) the captures from `patt` using function `func`.
 ---
@@ -457,6 +534,10 @@ function lpeg.Cc(...) end
 ---assert(sum:match('10,30,43') == 83)
 ---```
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L876-L879](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L876-L879)
+---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---@param func fun(acc, newvalue): (acc: any)
 ---
@@ -466,11 +547,15 @@ function lpeg.Cc(...) end
 function lpeg.Cf(patt, func) end
 
 ---
----Create a group capture.
+---Create a group capture.(The `Cg` stands for *`C`apture `g`roup*.)
 ---
 ---It groups all values returned by `patt` into a single capture. The group may
 ---be anonymous (if no name is given) or named with the given name (which can be
 ---any non-nil Lua value).
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L868-L873](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L868-L873)
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---@param name? string
@@ -481,7 +566,7 @@ function lpeg.Cf(patt, func) end
 function lpeg.Cg(patt, name) end
 
 ---
----Create a position capture.
+---Create a position capture.(The `Cp` stands for *`C`apture `p`osition*.)
 ---
 ---It matches the empty string and captures the position in the subject where
 ---the match occurs. The captured value is a number.
@@ -497,13 +582,18 @@ function lpeg.Cg(patt, name) end
 ---assert(match_end == 12)
 ---```
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L887-L890](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L887-L890)
+---
 ---@return lpeg.Capture
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 function lpeg.Cp() end
 
 ---
----Create a substitution capture.
+---Create a substitution capture. (The `Cs` stands for *`C`apture
+---`s`ubstitution*.)
 ---
 ---This function creates a substitution capture, which captures the substring of
 ---the subject that matches `patt`, with substitutions. For any capture inside
@@ -522,6 +612,10 @@ function lpeg.Cp() end
 ---assert(gsub('Hello, xxx!', 'xxx', 'World') == 'Hello, World!')
 ---```
 ---
+---__Reference:__
+---
+---* Corresponding C source code: [L858-L860](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L858-L860)
+---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---
 ---@return lpeg.Capture
@@ -530,13 +624,17 @@ function lpeg.Cp() end
 function lpeg.Cs(patt) end
 
 ---
----Create a table capture.
+---Create a table capture. (The `Ct` stands for *`C`apture `t`able*.)
 ---
 ---This capture returns a table with all values from all anonymous captures made
 ---by `patt` inside this table in successive integer keys, starting at 1.
 ---Moreover, for each named capture group created by `patt`, the first value of
 ---the group is put into the table with the group name as its key. The captured
 ---value is only the table.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L863-L865](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L863-L865)
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---
@@ -546,7 +644,8 @@ function lpeg.Cs(patt) end
 function lpeg.Ct(patt) end
 
 ---
----Create a match-time capture.
+---Create a match-time capture. (The `Cmt` stands for *`C`apture `m`atch
+---`t`ime*.)
 ---
 ---Unlike all other captures, this one is evaluated immediately when a match
 ---occurs (even if it is part of a larger pattern that fails later). It forces
@@ -566,6 +665,10 @@ function lpeg.Ct(patt) end
 ---
 ---Any extra values returned by the function become the values produced by the
 ---capture.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L939-L945](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L939-L945)
 ---
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
 ---@param fn fun(s: string, i: integer, ...: any): (position: boolean|integer, ...: any)

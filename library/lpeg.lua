@@ -349,6 +349,24 @@ function lpeg.P(value) end
 function lpeg.B(pattern) end
 
 ---
+---Returns a pattern that matches a valid UTF-8 byte sequence representing a
+---code point in the range `[cp1, cp2]`. The range is limited by the natural
+---Unicode limit of `0x10FFFF`, but may include surrogates.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L734-L754](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L734-L754)
+---* HTML documentation: [#op-utfR](https://www.inf.puc-rio.br/~roberto/lpeg#op-utfR)
+---
+---@param cp1 integer
+---@param cp2 integer
+---
+---@return lpeg.Pattern
+---
+---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
+function lpeg.utfR(cp1, cp2) end
+
+---
 ---Return a pattern that matches any single character belonging to one of the
 ---given ranges. (The `R` stands for *`R`ange*.)
 ---

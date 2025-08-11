@@ -96,6 +96,53 @@ local lpeg = {}
 local Pattern = {}
 
 ---
+---With the use of Lua variables, it is possible to define patterns
+---incrementally, with each new pattern using previously defined ones. However,
+---this technique does not allow the definition of recursive patterns. For
+---recursive patterns, we need real grammars.
+---
+---LPeg represents grammars with tables, where each entry is a rule.
+---
+---The call `lpeg.V(v)` creates a pattern that represents the nonterminal (or
+---*variable*) with index `v` in a grammar. Because the grammar still does not
+---exist when this function is evaluated, the result is an *open reference* to
+---the respective rule.
+---
+---A table is *fixed* when it is converted to a pattern (either by calling
+---`lpeg.P` or by using it wherein a pattern is expected). Then every open
+---reference created by `lpeg.V(v)` is corrected to refer to the rule indexed
+---by `v` in the table.
+---
+---When a table is fixed, the result is a pattern that matches its *initial*
+---rule. The entry with index `1` in the table defines its initial rule. If
+---that entry is a string, it is assumed to be the name of the initial rule.
+---Otherwise, LPeg assumes that the entry `1` itself is the initial rule.
+---
+---As an example, the following grammar matches strings of `a`'s and `b`'s that
+---have the same number of a's and b's:
+---
+---```lua
+---equalcount = lpeg.P{
+---  "S";   -- initial rule name
+---  S = "a" * lpeg.V"B" + "b" * lpeg.V"A" + "",
+---  A = "a" * lpeg.V"S" + "b" * lpeg.V"A" * lpeg.V"A",
+---  B = "b" * lpeg.V"S" + "a" * lpeg.V"B" * lpeg.V"B",
+---} * -1
+---```
+---
+---It is equivalent to the following grammar in standard PEG notation:
+---```
+---S <- 'a' B / 'b' A / ''
+---A <- 'a' S / 'b' A A
+---B <- 'b' S / 'a' B B
+---```
+---
+---__Reference:__
+---
+---* HTML documentation: [#grammar](https://www.inf.puc-rio.br/~roberto/lpeg#grammar)
+---@alias lpeg.Grammar table
+
+---
 ---A *capture* is a pattern that produces values (the so called *semantic
 ---information*) according to what it matches. LPeg offers several kinds of
 ---captures, which produces values based on matches and combine these values to
@@ -162,14 +209,15 @@ local Pattern = {}
 ---Match the given `pattern` against the `subject` string.
 ---
 ---If the match succeeds, returns the index in the subject of the first
----character after the match, or the captured values (if the pattern captured
----any value).
+---character after the match, or the
+---[captured values](https://www.inf.puc-rio.br/~roberto/lpeg#captures) (if the
+---pattern captured any value).
 ---
 ---An optional numeric argument `init` makes the match start at that position in
 ---the subject string. As usual in Lua libraries, a negative value counts from
 ---the end.
 ---
----Unlike typical pattern-matching functions, `match` works only in anchored
+---Unlike typical pattern-matching functions, `match` works only in *anchored*
 ---mode; that is, it tries to match the pattern with a prefix of the given
 ---subject string (at position `init`), not with an arbitrary substring of the
 ---subject. So, if we want to find a pattern anywhere in a string, we must
@@ -190,7 +238,7 @@ local Pattern = {}
 ---* Corresponding C source code: [lptree.c#L1247-L1266](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L1247-L1266)
 ---* HTML documentation: [#f-match](https://www.inf.puc-rio.br/~roberto/lpeg#f-match)
 ---
----@param pattern lpeg.Pattern|string|integer|boolean|table|function
+---@param pattern lpeg.Pattern|string|integer|boolean|lpeg.Grammar|function
 ---@param subject string # A string to be matched with the pattern.
 ---@param init? integer # Make the match start at that position in the subject string. As usual in Lua libraries, a negative value counts from the end.
 ---@param ... any
@@ -204,14 +252,15 @@ function lpeg.match(pattern, subject, init, ...) end
 ---Match the given `pattern` against the `subject` string.
 ---
 ---If the match succeeds, returns the index in the subject of the first
----character after the match, or the captured values (if the pattern captured
----any value).
+---character after the match, or the
+---[captured values](https://www.inf.puc-rio.br/~roberto/lpeg#captures) (if the
+---pattern captured any value).
 ---
 ---An optional numeric argument `init` makes the match start at that position in
 ---the subject string. As usual in Lua libraries, a negative value counts from
 ---the end.
 ---
----Unlike typical pattern-matching functions, `match` works only in anchored
+---Unlike typical pattern-matching functions, `match` works only in *anchored*
 ---mode; that is, it tries to match the pattern with a prefix of the given
 ---subject string (at position `init`), not with an arbitrary substring of the
 ---subject. So, if we want to find a pattern anywhere in a string, we must
@@ -257,7 +306,8 @@ function Pattern:match(subject, init, ...) end
 function lpeg.type(value) end
 
 ---
----A string (not a function) with the running version of LPeg.
+---A string (not a function) with the running version (for example `"1.0.1"`)
+---of LPeg.
 ---
 ---Note: In earlier versions of LPeg this field was a function.
 ---
@@ -270,8 +320,6 @@ function lpeg.type(value) end
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
 lpeg.version = ""
-
-
 
 ---
 ---Set a limit for the size of the backtrack stack used by LPeg to track calls
@@ -305,20 +353,23 @@ function lpeg.setmaxstack(max) end
 ---  matches exactly `n` characters.
 ---* If the argument is a negative number `-n`, the result is a pattern that
 ---  succeeds only if the input string has less than `n` characters left:
----  `lpeg.P(-n)` is equivalent to `-lpeg.P(n)` (see the unary minus operation).
+---  `lpeg.P(-n)` is equivalent to `-lpeg.P(n)` (see the
+---  [unary minus operation](https://www.inf.puc-rio.br/~roberto/lpeg/#op-unm)).
 ---* If the argument is a boolean, the result is a pattern that always succeeds
 ---  or always fails (according to the boolean value), without consuming any
 ---  input.
----* If the argument is a table, it is interpreted as a grammar (see Grammars).
----* If the argument is a function, returns a pattern equivalent to a match-time
----  capture over the empty string.
+---* If the argument is a table, it is interpreted as a grammar (see
+---  [Grammars](https://www.inf.puc-rio.br/~roberto/lpeg/#grammar)).
+---* If the argument is a function, returns a pattern equivalent to a
+---  [match-time capture](https://www.inf.puc-rio.br/~roberto/lpeg/#matchtime)
+---  over the empty string.
 ---
 ---__Reference:__
 ---
 ---* Corresponding C source code: [lptree.c#L543-L548](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L543-L548)
 ---* HTML documentation: [#op-p](https://www.inf.puc-rio.br/~roberto/lpeg#op-p)
 ---
----@param value lpeg.Pattern|string|integer|boolean|table|function
+---@param value lpeg.Pattern|string|integer|boolean|lpeg.Grammar|function
 ---
 ---@return lpeg.Pattern
 ---
@@ -333,8 +384,8 @@ function lpeg.P(value) end
 ---Pattern `patt` must match only strings with some fixed length, and it cannot
 ---contain captures.
 ---
----Like the `and` predicate, this pattern never consumes any input,
----independently of success or failure.
+---Like the [`and` predicate](https://www.inf.puc-rio.br/~roberto/lpeg/#op-len),
+---this pattern never consumes any input, independently of success or failure.
 ---
 ---__Reference:__
 ---
@@ -349,29 +400,8 @@ function lpeg.P(value) end
 function lpeg.B(pattern) end
 
 ---
----Returns a pattern that matches a valid UTF-8 byte sequence representing a
----code point in the range `[cp1, cp2]`. (The `utfR` stands for
----*`U`nicode `T`ransformation `F`ormat `R`ange*.)
----
----The range is limited by the natural Unicode limit of `0x10FFFF`, but may
----include surrogates.
----
----__Reference:__
----
----* Corresponding C source code: [lptree.c#L734-L754](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L734-L754)
----* HTML documentation: [#op-utfR](https://www.inf.puc-rio.br/~roberto/lpeg#op-utfR)
----
----@param cp1 integer
----@param cp2 integer
----
----@return lpeg.Pattern
----
----😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
-function lpeg.utfR(cp1, cp2) end
-
----
 ---Return a pattern that matches any single character belonging to one of the
----given ranges. (The `R` stands for *`R`ange*.)
+---given *ranges*. (The `R` stands for *`R`ange*.)
 ---
 ---Each `range` is a string `xy` of length 2, representing all characters with
 ---code between the codes of `x` and `y` (both inclusive).
@@ -404,7 +434,7 @@ function lpeg.R(...) end
 ---
 ---As an example, the pattern `lpeg.S('+-*/')` matches any arithmetic operator.
 ---
----Note that, if `s` is a character (that is, a string of length 1), then
+---Note that, if `s` is a character (that is, a string of length `1`), then
 ---`lpeg.P(s)` is equivalent to `lpeg.S(s)` which is equivalent to
 ---`lpeg.R(s..s)`. Note also that both `lpeg.S('')` and `lpeg.R()` are patterns
 ---that always fail.
@@ -433,7 +463,28 @@ function lpeg.R(...) end
 function lpeg.S(string) end
 
 ---
----Create a non-terminal (a variable) for a grammar. (The `V` stands for
+---Return a pattern that matches a valid UTF-8 byte sequence representing a
+---code point in the range `[cp1, cp2]`. (The `utfR` stands for
+---*`U`nicode `T`ransformation `F`ormat `R`ange*.)
+---
+---The range is limited by the natural Unicode limit of `0x10FFFF`, but may
+---include surrogates.
+---
+---__Reference:__
+---
+---* Corresponding C source code: [lptree.c#L734-L754](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L734-L754)
+---* HTML documentation: [#op-utfR](https://www.inf.puc-rio.br/~roberto/lpeg#op-utfR)
+---
+---@param cp1 integer
+---@param cp2 integer
+---
+---@return lpeg.Pattern
+---
+---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
+function lpeg.utfR(cp1, cp2) end
+
+---
+---Create a non-terminal (a *variable*) for a grammar. (The `V` stands for
 ---*`V`ariable*.)
 ---
 ---This operation creates a non-terminal (a variable) for a grammar. The created
@@ -452,12 +503,12 @@ function lpeg.S(string) end
 ---* Corresponding C source code: [lptree.c#L773-L781](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L773-L781)
 ---* HTML documentation: [#op-v](https://www.inf.puc-rio.br/~roberto/lpeg#op-v)
 ---
----@param v boolean|string|number|function|table|thread|userdata|lightuserdata
+---@param variable boolean|string|number|function|table|thread|userdata|lightuserdata
 ---
 ---@return lpeg.Pattern
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
-function lpeg.V(v) end
+function lpeg.V(variable) end
 
 ---
 ---__Reference:__

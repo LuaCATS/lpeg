@@ -38,10 +38,9 @@
 ---interested in my [talk about LPeg](https://vimeo.com/1485123) given at the
 ---III Lua Workshop.)
 ---
----This type definition is based on the
----[HTML documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg
----library. A different HTML documentation
----can be found at
+---This type definition is based on the [HTML
+---documentation](http://www.inf.puc-rio.br/~roberto/lpeg/) of the LPeg library.
+---A different HTML documentation can be found at
 ---[stevedonovan.github.io/lua-stdlibs](http://stevedonovan.github.io/lua-stdlibs/modules/lpeg.html).
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
@@ -110,12 +109,12 @@ local Pattern = {}
 ---
 ---A table is *fixed* when it is converted to a pattern (either by calling
 ---`lpeg.P` or by using it wherein a pattern is expected). Then every open
----reference created by `lpeg.V(v)` is corrected to refer to the rule indexed
----by `v` in the table.
+---reference created by `lpeg.V(v)` is corrected to refer to the rule indexed by
+---`v` in the table.
 ---
 ---When a table is fixed, the result is a pattern that matches its *initial*
----rule. The entry with index `1` in the table defines its initial rule. If
----that entry is a string, it is assumed to be the name of the initial rule.
+---rule. The entry with index `1` in the table defines its initial rule. If that
+---entry is a string, it is assumed to be the name of the initial rule.
 ---Otherwise, LPeg assumes that the entry `1` itself is the initial rule.
 ---
 ---As an example, the following grammar matches strings of `a`'s and `b`'s that
@@ -169,28 +168,28 @@ local Pattern = {}
 ---| `lpeg.Cmt(patt, function)` | the returns of `function` applied to the captures of `patt`; the application is done at match time         |
 ---
 ---A capture pattern produces its values only when it succeeds. For instance,
----the pattern `lpeg.C(lpeg.P"a"^-1)` produces the empty string when there is
----no `"a"` (because the pattern `"a"?` succeeds), while the pattern
+---the pattern `lpeg.C(lpeg.P"a"^-1)` produces the empty string when there is no
+---`"a"` (because the pattern `"a"?` succeeds), while the pattern
 ---`lpeg.C("a")^-1` does not produce any value when there is no `"a"` (because
 ---the pattern `"a"` fails). A pattern inside a loop or inside a recursive
 ---structure produces values for each match.
 ---
 ---Usually, LPeg does not specify when, if, or how many times it evaluates its
----captures. Therefore, captures should avoid side effects. As an example,
----LPeg may or may not call func in the pattern `lpeg.P"a" / func / 0`, given
----that the ["division" by 0](https://www.inf.puc-rio.br/~roberto/lpeg#cap-num)
+---captures. Therefore, captures should avoid side effects. As an example, LPeg
+---may or may not call func in the pattern `lpeg.P"a" / func / 0`, given that
+---the ["division" by 0](https://www.inf.puc-rio.br/~roberto/lpeg#cap-num)
 ---instructs LPeg to throw away the results from the pattern. Similarly, a
----capture nested inside a
----[named group](https://www.inf.puc-rio.br/~roberto/lpeg/#cap-g) may be
----evaluated only when that group is referred in a
----[back capture](https://www.inf.puc-rio.br/~roberto/lpeg/#cap-b); if there
----are multiple back captures, the group may be evaluated multiple times.
+---capture nested inside a [named
+---group](https://www.inf.puc-rio.br/~roberto/lpeg/#cap-g) may be evaluated only
+---when that group is referred in a [back
+---capture](https://www.inf.puc-rio.br/~roberto/lpeg/#cap-b); if there are
+---multiple back captures, the group may be evaluated multiple times.
 ---
----Moreover, captures cannot affect the way a pattern matches a subject.
----The only exception to this rule is the so-called
----[match-time capture](https://www.inf.puc-rio.br/~roberto/lpeg/#matchtime).
----When a match-time capture matches, it forces the immediate evaluation of all
----its nested captures and then calls its corresponding function, which defines
+---Moreover, captures cannot affect the way a pattern matches a subject. The
+---only exception to this rule is the so-called [match-time
+---capture](https://www.inf.puc-rio.br/~roberto/lpeg/#matchtime). When a
+---match-time capture matches, it forces the immediate evaluation of all its
+---nested captures and then calls its corresponding function, which defines
 ---whether the match succeeds and also what values are produced.
 ---
 ---😱 [Types](https://github.com/LuaCATS/lpeg/blob/main/library/lpeg.lua) incomplete or incorrect? 🙏 [Please contribute!](https://github.com/LuaCATS/lpeg/pulls)
@@ -209,9 +208,9 @@ local Pattern = {}
 ---Match the given `pattern` against the `subject` string.
 ---
 ---If the match succeeds, returns the index in the subject of the first
----character after the match, or the
----[captured values](https://www.inf.puc-rio.br/~roberto/lpeg#captures) (if the
----pattern captured any value).
+---character after the match, or the [captured
+---values](https://www.inf.puc-rio.br/~roberto/lpeg#captures) (if the pattern
+---captured any value).
 ---
 ---An optional numeric argument `init` makes the match start at that position in
 ---the subject string. As usual in Lua libraries, a negative value counts from
@@ -252,9 +251,9 @@ function lpeg.match(pattern, subject, init, ...) end
 ---Match the given `pattern` against the `subject` string.
 ---
 ---If the match succeeds, returns the index in the subject of the first
----character after the match, or the
----[captured values](https://www.inf.puc-rio.br/~roberto/lpeg#captures) (if the
----pattern captured any value).
+---character after the match, or the [captured
+---values](https://www.inf.puc-rio.br/~roberto/lpeg#captures) (if the pattern
+---captured any value).
 ---
 ---An optional numeric argument `init` makes the match start at that position in
 ---the subject string. As usual in Lua libraries, a negative value counts from
@@ -293,7 +292,8 @@ function lpeg.match(pattern, subject, init, ...) end
 function Pattern:match(subject, init, ...) end
 
 ---
----Return the string `"pattern"` if the given value is a pattern, otherwise `nil`.
+---Return the string `"pattern"` if the given value is a pattern, otherwise
+---`nil`.
 ---
 ---__Reference:__
 ---
@@ -306,8 +306,8 @@ function Pattern:match(subject, init, ...) end
 function lpeg.type(value) end
 
 ---
----A string (not a function) with the running version (for example `"1.0.1"`)
----of LPeg.
+---A string (not a function) with the running version (for example `"1.0.1"`) of
+---LPeg.
 ---
 ---Note: In earlier versions of LPeg this field was a function.
 ---
@@ -353,8 +353,8 @@ function lpeg.setmaxstack(max) end
 ---  matches exactly `n` characters.
 ---* If the argument is a negative number `-n`, the result is a pattern that
 ---  succeeds only if the input string has less than `n` characters left:
----  `lpeg.P(-n)` is equivalent to `-lpeg.P(n)` (see the
----  [unary minus operation](https://www.inf.puc-rio.br/~roberto/lpeg/#op-unm)).
+---  `lpeg.P(-n)` is equivalent to `-lpeg.P(n)` (see the   [unary minus
+---operation](https://www.inf.puc-rio.br/~roberto/lpeg/#op-unm)).
 ---* If the argument is a boolean, the result is a pattern that always succeeds
 ---  or always fails (according to the boolean value), without consuming any
 ---  input.
@@ -463,9 +463,9 @@ function lpeg.R(...) end
 function lpeg.S(string) end
 
 ---
----Return a pattern that matches a valid UTF-8 byte sequence representing a
----code point in the range `[cp1, cp2]`. (The `utfR` stands for
----*`U`nicode `T`ransformation `F`ormat `R`ange*.)
+---Return a pattern that matches a valid UTF-8 byte sequence representing a code
+---point in the range `[cp1, cp2]`. (The `utfR` stands for *`U`nicode
+---`T`ransformation `F`ormat `R`ange*.)
 ---
 ---The range is limited by the natural Unicode limit of `0x10FFFF`, but may
 ---include surrogates.
@@ -671,9 +671,10 @@ function lpeg.Cc(...) end
 ---
 ---Create a fold capture. (The `Cf` stands for *`C`apture `f`fold*.)
 ---
----If `patt` produces a list of captures `C1 C2 ... Cn`, this capture will produce
----the value `func(...func(func(C1, C2), C3)...,Cn)`, that is, it will fold (or
----accumulate, or reduce) the captures from `patt` using function `func`.
+---If `patt` produces a list of captures `C1 C2 ... Cn`, this capture will
+---produce the value `func(...func(func(C1, C2), C3)...,Cn)`, that is, it will
+---fold (or accumulate, or reduce) the captures from `patt` using function
+---`func`.
 ---
 ---This capture assumes that `patt` should produce at least one capture with at
 ---least one value (of any type), which becomes the initial value of an

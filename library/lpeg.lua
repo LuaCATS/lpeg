@@ -82,10 +82,9 @@ local lpeg = {}
 ---@class lpeg.Pattern
 ---@operator len: lpeg.Pattern
 ---@operator unm: lpeg.Pattern
----@operator add(lpeg.Pattern): lpeg.Pattern
----@operator sub(lpeg.Pattern): lpeg.Pattern
----@operator mul(lpeg.Pattern): lpeg.Pattern
----@operator mul(lpeg.Capture): lpeg.Pattern
+---@operator add(lpeg.Pattern|string|integer|boolean|lpeg.Grammar|function): lpeg.Pattern
+---@operator sub(lpeg.Pattern|string|integer|boolean|lpeg.Grammar|function): lpeg.Pattern
+---@operator mul(lpeg.Pattern|string|integer|boolean|lpeg.Grammar|function): lpeg.Pattern
 ---@operator div(string): lpeg.Capture
 ---@operator div(integer): lpeg.Capture
 ---@operator div(table): lpeg.Capture

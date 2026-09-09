@@ -549,7 +549,7 @@ function lpeg.V(variable) end
 ---local name = lpeg.C(lpeg.alpha ^ 1) * space
 ---local sep = lpeg.S(',;') * space
 ---local pair = lpeg.Cg(name * '=' * space * name) * sep ^ -1
----local list = lpeg.Cf(lpeg.Ct('') * pair ^ 0, rawset)
+---local list = lpeg.Ct('') * (pair % rawset) ^ 0
 ---local t = list:match('a=b, c = hi; next = pi')
 ---assert(t.a == 'b')
 ---assert(t.c == 'hi')
@@ -671,6 +671,9 @@ function lpeg.Cc(...) end
 ---
 ---Create a fold capture. (The `Cf` stands for *`C`apture `f`fold*.)
 ---
+---This construction is deprecated; use an [accumulator
+---capture](https://www.inf.puc-rio.br/~roberto/lpeg#cap-acc) instead.
+---
 ---If `patt` produces a list of captures `C1 C2 ... Cn`, this capture will
 ---produce the value `func(...func(func(C1, C2), C3)...,Cn)`, that is, it will
 ---fold (or accumulate, or reduce) the captures from `patt` using function
@@ -700,8 +703,9 @@ function lpeg.Cc(...) end
 ---* Corresponding C source code: [lptree.c#L876-L879](https://github.com/roberto-ieru/LPeg/blob/80ec9f932aa01d445e86c699523265359055e1bd/lptree.c#L876-L879)
 ---* HTML documentation: [#cap-f](https://www.inf.puc-rio.br/~roberto/lpeg#cap-f)
 ---
+---@deprecated
 ---@param patt lpeg.Pattern|string|integer|boolean|table|function
----@param func fun(acc, newvalue): (acc: any)
+---@param func fun(acc: any, ...: any): any
 ---
 ---@return lpeg.Capture
 ---

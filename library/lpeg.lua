@@ -517,17 +517,17 @@ function lpeg.V(variable) end
 ---* HTML documentation: [#op-locale](https://www.inf.puc-rio.br/~roberto/lpeg#op-locale)
 ---
 ---@class lpeg.Locale
----@field alnum userdata
----@field alpha userdata
----@field cntrl userdata
----@field digit userdata
----@field graph userdata
----@field lower userdata
----@field print userdata
----@field punct userdata
----@field space userdata
----@field upper userdata
----@field xdigit userdata
+---@field alnum lpeg.Pattern
+---@field alpha lpeg.Pattern
+---@field cntrl lpeg.Pattern
+---@field digit lpeg.Pattern
+---@field graph lpeg.Pattern
+---@field lower lpeg.Pattern
+---@field print lpeg.Pattern
+---@field punct lpeg.Pattern
+---@field space lpeg.Pattern
+---@field upper lpeg.Pattern
+---@field xdigit lpeg.Pattern
 
 ---
 ---Return a table with patterns for matching some character classes according to
@@ -556,7 +556,8 @@ function lpeg.V(variable) end
 ---assert(t.next == 'pi')
 ---
 ---local locale = lpeg.locale()
----assert(type(locale.digit) == 'userdata')
+---assert(lpeg.type(locale.digit) == 'pattern')
+---assert((locale.digit ^ 1):match('123') == 4)
 ---```
 ---
 ---__Reference:__
